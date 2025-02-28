@@ -9,13 +9,16 @@
         :root {
             --dsp5-gradient: linear-gradient(90deg, #0093C1, #64b5f6);
             --tech-gradient: linear-gradient(90deg, #2e7d32, #66bb6a);
-            --lever-gradient: linear-gradient(135deg, #ff8c42, #ffb347); /* 夕陽橙到金黃 */
+            --lever-gradient: linear-gradient(135deg, #ff8c42, #ffb347);
+            --dsp5-highlight: #ff9800;
+            --tech-highlight: #fff;
+            --lever-highlight: #fff;
             --text-color: #fff;
             --glass-bg: rgba(255, 255, 255, 0.15);
-            --card-bg-dsp5: rgba(0, 147, 193, 0.3);
-            --card-bg-tech: rgba(46, 125, 50, 0.3);
-            --lever-bg: rgba(255, 245, 238, 0.2); /* 暖灰半透明 */
-            --lever-border: #ff8c42; /* 夕陽紅邊框 */
+            --card-bg-dsp5: rgba(255, 255, 255, 0.25);
+            --card-bg-tech: rgba(255, 255, 255, 0.15);
+            --card-bg-lever: rgba(255, 245, 238, 0.2);
+            --lever-border: #ff8c42;
         }
 
         * {
@@ -27,97 +30,111 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #ff6f61, #6b5b95); /* 夕陽橙紅到深紫 */
+            background: linear-gradient(135deg, #355c7d, #1e3c72); /* 統一藍色漸層背景 */
             padding: 20px 20px 80px;
             position: relative;
         }
 
+        #leverage {
+            background: linear-gradient(135deg, #ff6f61, #6b5b95); /* 夕陽風格背景 */
+        }
+
         .container {
-            padding: 2rem;
+            background: var(--glass-bg);
+            padding: 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            max-width: 480px;
             width: 100%;
             margin: 0 auto;
             color: var(--text-color);
-        }
-
-        /* DSP5 和 Tech Fund 使用玻璃效果 */
-        #dsp5, #techFund {
-            background: var(--glass-bg);
-            max-width: 450px;
             border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: fadeIn 0.8s ease-in-out;
         }
 
-        /* Leverage 使用夕陽風格 */
-        #leverage {
-            background: var(--lever-bg);
+        #leverage.container {
+            background: var(--card-bg-lever);
             max-width: 500px;
             border: 2px solid var(--lever-border);
         }
 
         h2 {
             font-size: 2rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.8rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
             text-align: center;
             font-weight: 700;
-            line-height: 1.4;
+            letter-spacing: 1.2px;
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.8rem;
         }
 
         label {
             font-size: 1.2rem;
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         input, select {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
             font-size: 1.1rem;
-            background: #fff5ee; /* 淺暖灰 */
-            color: #333;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #leverage input, #leverage select {
+            background: #fff5ee;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+            transform: scale(1.02);
+            background: #fff;
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         button {
             width: 100%;
-            padding: 0.9rem;
-            color: var(--text-color);
+            padding: 1rem;
             border: none;
             border-radius: 12px;
             font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: var(--text-color);
         }
 
         #dsp5 button {
             background: var(--dsp5-gradient);
-            box-shadow: 0 4px 15px rgba(0, 147, 193, 0.4);
+            box-shadow: 0 5px 20px rgba(0, 147, 193, 0.4);
         }
 
         #dsp5 button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 147, 193, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 147, 193, 0.6);
             background: linear-gradient(90deg, #64b5f6, #0093C1);
         }
 
         #techFund button {
             background: var(--tech-gradient);
-            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+            box-shadow: 0 5px 20px rgba(46, 125, 50, 0.4);
         }
 
         #techFund button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.6);
             background: linear-gradient(90deg, #66bb6a, #2e7d32);
         }
 
@@ -127,39 +144,103 @@
         }
 
         #leverage button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(255, 140, 66, 0.7);
             background: linear-gradient(135deg, #ffb347, #ff8c42);
         }
 
         .result {
-            margin-top: 2rem;
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        table {
+        .result-card {
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+            transition: transform 0.2s ease;
+        }
+
+        #dsp5 .result-card {
+            background: var(--card-bg-dsp5);
+            backdrop-filter: blur(5px);
+        }
+
+        #dsp5 .result-card:hover {
+            transform: scale(1.02);
+        }
+
+        #dsp5 .result-card span {
+            color: var(--dsp5-highlight);
+            font-weight: 700;
+        }
+
+        #techFund .result-card {
+            background: var(--card-bg-tech);
+            position: relative;
+        }
+
+        #techFund .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--tech-gradient);
+            border-radius: 12px 12px 0 0;
+        }
+
+        #techFund .result-card:hover {
+            transform: scale(1.02);
+        }
+
+        #techFund .result-card span {
+            color: var(--tech-highlight);
+            font-weight: 700;
+        }
+
+        #leverage table {
             width: 100%;
             border-collapse: collapse;
             font-size: 1.2rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        th, td {
+        #leverage th, #leverage td {
             padding: 0.8rem;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 140, 66, 0.6); /* 夕陽紅邊框 */
+            border-bottom: 1px solid rgba(255, 140, 66, 0.6);
         }
 
-        th {
-            background: rgba(255, 140, 66, 0.3); /* 夕陽紅半透明 */
+        #leverage th {
+            background: rgba(255, 140, 66, 0.3);
             font-weight: 700;
         }
 
-        tr:nth-child(even) td {
-            background: rgba(255, 245, 238, 0.1); /* 淺暖灰交替 */
+        #leverage tr:nth-child(even) td {
+            background: rgba(255, 245, 238, 0.1);
         }
 
-        tr:nth-child(odd) td {
-            background: rgba(255, 245, 238, 0.2); /* 稍深暖灰交替 */
+        #leverage tr:nth-child(odd) td {
+            background: rgba(255, 245, 238, 0.2);
+        }
+
+        .result-card hr {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 0.8rem 0;
+        }
+
+        .result-card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
 
         .result-note {
@@ -167,6 +248,10 @@
             font-size: 0.9rem;
             text-align: center;
             line-height: 1.5;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        #leverage .result-note {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
@@ -287,6 +372,11 @@
             display: none;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @keyframes shake {
             0% { transform: translate(-50%, -50%) translateX(0); }
             20% { transform: translate(-50%, -50%) translateX(-10px); }
@@ -324,6 +414,9 @@
             input, select, button {
                 font-size: 1rem;
                 padding: 0.8rem;
+            }
+            .result-card {
+                font-size: 0.9rem;
             }
             table {
                 font-size: 0.9rem;
@@ -491,7 +584,7 @@
                 <div class="result">可得單位數：${units.toFixed(2)}</div>
                 <div class="result">每單位配息：0.055</div>
                 <div class="result">當前匯率 (USD/TWD)：${exchangeRate.toFixed(2)}</div>
-                <div class="result-note">基於當前匯率與 8% 年化報酬率計算，實際結果可能因市場波動而異</div>
+                <div class="result-note">基於當前匯率與每單位配息 0.055 計算，實際結果可能因市場波動而異</div>
             `;
             resultDiv.scrollIntoView({ behavior: 'smooth' });
         }
@@ -533,7 +626,7 @@
 
             resultDiv.innerHTML += `
                 <div class="result-note">
-                    基於美國科技股長期平均年化報酬保守8%計算<br>實際報酬可能因市場波動而異
+                    備註：基於美國科技股長期平均年化報酬保守8%計算<br>實際報酬可能因市場波動而異
                 </div>
             `;
             resultDiv.scrollIntoView({ behavior: 'smooth' });
@@ -556,12 +649,10 @@
             await new Promise(resolve => setTimeout(resolve, 1000));
             loadingEmoji.classList.remove('shaking');
 
-            // 計算邏輯
             const cashAvailable = refinanceAmount - originalLoan;
             const gracePeriodPayment = (refinanceAmount * refinanceRate) / 12;
             const cashFlow = (((refinanceAmount - originalLoan) * 0.95 / 8.5) * 0.055) - gracePeriodPayment;
 
-            // 表格呈現
             resultDiv.innerHTML = `
                 <table>
                     <tr><th>項目</th><th>金額</th></tr>
