@@ -7,12 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Galada&family=Montserrat:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --dsp5-gradient: linear-gradient(90deg, #0093C1, #64b5f6); /* DSP5 藍色 */
-            --tech-gradient: linear-gradient(90deg, #2e7d32, #66bb6a); /* 美國科技基金綠色 */
+            --dsp5-gradient: linear-gradient(90deg, #0093C1, #64b5f6);
+            --tech-gradient: linear-gradient(90deg, #2e7d32, #66bb6a);
+            --lever-gradient: linear-gradient(135deg, #ff8c42, #ffb347); /* 夕陽橙到金黃 */
             --text-color: #fff;
             --glass-bg: rgba(255, 255, 255, 0.15);
-            --card-bg-dsp5: rgba(0, 147, 193, 0.3); /* DSP5 卡片藍色調 */
-            --card-bg-tech: rgba(46, 125, 50, 0.3); /* 美國科技基金卡片綠色調 */
+            --card-bg-dsp5: rgba(0, 147, 193, 0.3);
+            --card-bg-tech: rgba(46, 125, 50, 0.3);
+            --lever-bg: rgba(255, 245, 238, 0.2); /* 暖灰半透明 */
+            --lever-border: #ff8c42; /* 夕陽紅邊框 */
         }
 
         * {
@@ -24,26 +27,38 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1e88e5, #90caf9); /* 統一背景 */
+            background: linear-gradient(135deg, #ff6f61, #6b5b95); /* 夕陽橙紅到深紫 */
             padding: 20px 20px 80px;
             position: relative;
         }
 
         .container {
-            background: var(--glass-bg);
             padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             width: 100%;
             margin: 0 auto;
             color: var(--text-color);
+        }
+
+        /* DSP5 和 Tech Fund 使用玻璃效果 */
+        #dsp5, #techFund {
+            background: var(--glass-bg);
+            max-width: 450px;
             border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Leverage 使用夕陽風格 */
+        #leverage {
+            background: var(--lever-bg);
+            max-width: 500px;
+            border: 2px solid var(--lever-border);
         }
 
         h2 {
             font-size: 2rem;
             margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             text-align: center;
             font-weight: 700;
             line-height: 1.4;
@@ -58,16 +73,18 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         input, select {
             width: 100%;
             padding: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
             font-size: 1.1rem;
-            background: rgba(255, 255, 255, 0.85);
-            color: #000;
+            background: #fff5ee; /* 淺暖灰 */
+            color: #333;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         button {
@@ -75,7 +92,7 @@
             padding: 0.9rem;
             color: var(--text-color);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
@@ -104,43 +121,45 @@
             background: linear-gradient(90deg, #66bb6a, #2e7d32);
         }
 
+        #leverage button {
+            background: var(--lever-gradient);
+            box-shadow: 0 5px 20px rgba(255, 140, 66, 0.5);
+        }
+
+        #leverage button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 140, 66, 0.7);
+            background: linear-gradient(135deg, #ffb347, #ff8c42);
+        }
+
         .result {
             margin-top: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
         }
 
-        .result-card {
-            padding: 1rem;
-            border-radius: 10px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 1.2rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        #dsp5 .result-card {
-            background: var(--card-bg-dsp5);
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 140, 66, 0.6); /* 夕陽紅邊框 */
         }
 
-        #techFund .result-card {
-            background: var(--card-bg-tech);
-        }
-
-        .result-card span {
+        th {
+            background: rgba(255, 140, 66, 0.3); /* 夕陽紅半透明 */
             font-weight: 700;
         }
 
-        .result-card hr {
-            border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            margin: 0.6rem 0;
+        tr:nth-child(even) td {
+            background: rgba(255, 245, 238, 0.1); /* 淺暖灰交替 */
         }
 
-        .result-card-title {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
+        tr:nth-child(odd) td {
+            background: rgba(255, 245, 238, 0.2); /* 稍深暖灰交替 */
         }
 
         .result-note {
@@ -148,43 +167,7 @@
             font-size: 0.9rem;
             text-align: center;
             line-height: 1.5;
-        }
-
-        .dsp5-container {
-            display: flex;
-            gap: 2rem;
-            max-width: 600px;
-        }
-
-        .dsp5-left {
-            flex: 1;
-        }
-
-        .dsp5-right {
-            width: 200px;
-            font-size: 0.9rem;
-        }
-
-        .dsp5-notes-list {
-            list-style: none;
-        }
-
-        .dsp5-notes-list li {
-            margin-bottom: 1rem;
-        }
-
-        .dsp5-notes-list a {
-            color: var(--text-color);
-            text-decoration: underline;
-            font-style: italic;
-        }
-
-        .dsp5-notes-list a:hover {
-            text-decoration: underline;
-        }
-
-        .dsp5-notes-list li:first-child {
-            font-size: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .hidden {
@@ -201,7 +184,7 @@
         .menu-btn {
             width: 50px;
             height: 50px;
-            background: var(--primary-gradient);
+            background: var(--dsp5-gradient);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -245,12 +228,54 @@
             box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
         }
 
+        .menu-options button#leverBtn {
+            background: var(--lever-gradient);
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.4);
+        }
+
         .menu-options button:hover {
             transform: translateY(-2px);
         }
 
         .menu.open .menu-options {
             display: flex;
+        }
+
+        .dsp5-container {
+            display: flex;
+            gap: 2rem;
+            max-width: 600px;
+        }
+
+        .dsp5-left {
+            flex: 1;
+        }
+
+        .dsp5-right {
+            width: 200px;
+            font-size: 0.9rem;
+        }
+
+        .dsp5-notes-list {
+            list-style: none;
+        }
+
+        .dsp5-notes-list li {
+            margin-bottom: 1rem;
+        }
+
+        .dsp5-notes-list a {
+            color: var(--text-color);
+            text-decoration: underline;
+            font-style: italic;
+        }
+
+        .dsp5-notes-list a:hover {
+            text-decoration: underline;
+        }
+
+        .dsp5-notes-list li:first-child {
+            font-size: 1rem;
         }
 
         .loading-emoji {
@@ -300,11 +325,11 @@
                 font-size: 1rem;
                 padding: 0.8rem;
             }
-            .result-card {
-                font-size: 1rem;
+            table {
+                font-size: 0.9rem;
             }
-            .result-card-title {
-                font-size: 1rem;
+            th, td {
+                padding: 0.6rem;
             }
             .result-note {
                 font-size: 0.8rem;
@@ -327,7 +352,7 @@
     </style>
 </head>
 <body>
-    <section id="dsp5" class="container">
+    <section id="dsp5" class="container hidden">
         <div class="dsp5-container">
             <div class="dsp5-left">
                 <h2>DSP5 計算機</h2>
@@ -369,11 +394,34 @@
         <div class="result" id="techResult"></div>
     </section>
 
+    <section id="leverage" class="container">
+        <h2>房貸槓桿投資計算機</h2>
+        <div class="form-group">
+            <label for="originalLoan">原始貸款（萬元）：</label>
+            <input type="number" id="originalLoan" placeholder="例如 800" min="0">
+        </div>
+        <div class="form-group">
+            <label for="originalMonthlyPayment">原始月付金（萬元）：</label>
+            <input type="number" id="originalMonthlyPayment" placeholder="例如 3" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="refinanceAmount">轉增貸金額（萬元）：</label>
+            <input type="number" id="refinanceAmount" placeholder="例如 1000" min="0">
+        </div>
+        <div class="form-group">
+            <label for="refinanceRate">轉貸利率（%）：</label>
+            <input type="number" id="refinanceRate" placeholder="例如 2.5" min="0" step="0.01">
+        </div>
+        <button onclick="calculateLeverage()">計算</button>
+        <div class="result" id="leverageResult"></div>
+    </section>
+
     <div class="menu" id="menu">
         <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">+</div>
         <div class="menu-options" id="menuOptions">
             <button id="dsp5Btn" onclick="switchSection('dsp5')">DSP5 計算機</button>
             <button id="techBtn" onclick="switchSection('techFund')">美國科技基金</button>
+            <button id="leverBtn" onclick="switchSection('leverage')">房貸槓桿投資</button>
         </div>
     </div>
     <div class="loading-emoji" id="loadingEmoji">💰</div>
@@ -491,6 +539,43 @@
             resultDiv.scrollIntoView({ behavior: 'smooth' });
         }
 
+        async function calculateLeverage() {
+            const originalLoan = parseFloat(document.getElementById('originalLoan').value) * 10000 || 0;
+            const originalMonthlyPayment = parseFloat(document.getElementById('originalMonthlyPayment').value) * 10000 || 0;
+            const refinanceAmount = parseFloat(document.getElementById('refinanceAmount').value) * 10000 || 0;
+            const refinanceRate = parseFloat(document.getElementById('refinanceRate').value) / 100 || 0;
+            const resultDiv = document.getElementById('leverageResult');
+            const loadingEmoji = document.getElementById('loadingEmoji');
+
+            if (!validateInput(originalLoan, originalMonthlyPayment, refinanceAmount, refinanceRate)) {
+                alert('請輸入有效的數字，且不得為負值！');
+                return;
+            }
+
+            loadingEmoji.classList.add('shaking');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            loadingEmoji.classList.remove('shaking');
+
+            // 計算邏輯
+            const cashAvailable = refinanceAmount - originalLoan;
+            const gracePeriodPayment = (refinanceAmount * refinanceRate) / 12;
+            const cashFlow = (((refinanceAmount - originalLoan) * 0.95 / 8.5) * 0.055) - gracePeriodPayment;
+
+            // 表格呈現
+            resultDiv.innerHTML = `
+                <table>
+                    <tr><th>項目</th><th>金額</th></tr>
+                    <tr><td>可拿現金</td><td>NT$${cashAvailable.toLocaleString('zh-TW', { maximumFractionDigits: 0 })}</td></tr>
+                    <tr><td>寬限期月付金</td><td>NT$${gracePeriodPayment.toLocaleString('zh-TW', { maximumFractionDigits: 0 })}</td></tr>
+                    <tr><td>可創造現金流</td><td>NT$${cashFlow.toLocaleString('zh-TW', { maximumFractionDigits: 0 })}</td></tr>
+                </table>
+                <div class="result-note">
+                    備註：基於轉貸利率 ${refinanceRate * 100}% 和特定投資假設計算<br>實際結果可能因市場波動而異
+                </div>
+            `;
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
         function toggleMenu() {
             const menu = document.getElementById('menu');
             const menuBtn = document.getElementById('menuBtn');
@@ -501,6 +586,7 @@
         function switchSection(sectionId) {
             document.getElementById('dsp5').classList.add('hidden');
             document.getElementById('techFund').classList.add('hidden');
+            document.getElementById('leverage').classList.add('hidden');
             document.getElementById(sectionId).classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             toggleMenu();
@@ -510,14 +596,16 @@
             if (e.key === 'Enter') {
                 if (!document.getElementById('dsp5').classList.contains('hidden')) {
                     calculateDSP5();
-                } else {
+                } else if (!document.getElementById('techFund').classList.contains('hidden')) {
                     calculateTechFund();
+                } else {
+                    calculateLeverage();
                 }
             }
         });
 
-        // 預設顯示 DSP5
-        switchSection('dsp5');
+        // 預設顯示房貸槓桿投資
+        switchSection('leverage');
     </script>
 </body>
 </html>
