@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>理財計算工具</title>
     <link href="https://fonts.googleapis.com/css2?family=Galada&family=Montserrat:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon.ico"> <!-- 添加代表圖標 -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"> <!-- 添加 iPhone 主畫面圖標 -->
     <style>
         :root {
             --dsp5-gradient: linear-gradient(90deg, #0093C1, #64b5f6);
@@ -171,13 +171,13 @@
         #dsp5 .result-card {
             background: var(--card-bg-dsp5);
             backdrop-filter: blur(5px);
-            font-size: 2.0rem;
+            font-size: 1.2rem;
             font-weight: 700;
         }
 
         #dsp5 .result-card span {
             color: var(--dsp5-highlight);
-            font-size: 2.0rem;
+            font-size: 1.4rem;
             font-weight: 700;
         }
 
@@ -474,9 +474,9 @@
         <div class="dsp5-container">
             <div class="dsp5-left">
                 <h2>DSP5 計算機</h2>
-                <p class="description">輸入預計金額與淨值，自動獲取匯率並計算每月配息！</p>
+                <p class="description">輸入預計投入金額與淨值，自動獲取匯率並計算每月配息！</p>
                 <div class="form-group">
-                    <label for="dsp5Investment">預計投入的金額 (NTD)：</label>
+                    <label for="dsp5Investment">預計投入金額 (NTD)：</label>
                     <input type="number" id="dsp5Investment" placeholder="例如 1000000" min="0" step="100">
                 </div>
                 <div class="form-group">
@@ -605,7 +605,7 @@
             exchangeRateInfo.innerHTML = ` (${exchangeDateTime}：${exchangeRate.toFixed(2)})`;
             resultDiv.innerHTML = `
                 <div class="result-card">
-                    月配息試算：<br><hr><span>NT$${Math.round(monthlyPayout * exchangeRate).toLocaleString('zh-TW')}</span>
+                    月配息金額：<br><hr><span>NT$${Math.round(monthlyPayout * exchangeRate).toLocaleString('zh-TW')}</span>
                 </div>
                 <div class="result">可得單位數：${units.toFixed(2)}</div>
                 <div class="result">每單位配息：0.055</div>
