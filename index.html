@@ -473,6 +473,14 @@
 
 <!-- Kevin Supply Hub Back Button -->
 <style>
+@keyframes ks-wiggle {
+  0%,100% { transform: rotate(0deg) scale(1); }
+  15%      { transform: rotate(-6deg) scale(1.05); }
+  30%      { transform: rotate(5deg) scale(1.05); }
+  45%      { transform: rotate(-4deg) scale(1.02); }
+  60%      { transform: rotate(3deg) scale(1.02); }
+  75%      { transform: rotate(-2deg) scale(1); }
+}
 .ks-back {
   position: fixed;
   top: 12px;
@@ -493,269 +501,41 @@
   font-size: 12px;
   font-weight: 700;
   box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.2s, box-shadow 0.2s;
   white-space: nowrap;
+  transform-origin: left center;
 }
-.ks-back:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(0,0,0,0.15); }
+.ks-back:hover {
+  transform: scale(1.3);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+}
+.ks-back.wiggle {
+  animation: ks-wiggle 0.6s ease;
+}
 .ks-back img { width: 26px; height: 26px; border-radius: 50%; display: block; }
 </style>
-<a class="ks-back" href="https://kevinyicheng.github.io/kevin-supply-hub/">
+<a class="ks-back" id="ksBack" href="https://kevinyicheng.github.io/kevin-supply-hub/">
   <img src="https://kevinyicheng.github.io/kevin-supply-hub/apple-touch-icon.png" alt="Kevin" />
-  Kevin Supply Hub
+  返回Kevin Supply Hub
 </a>
-    <section id="dsp5" class="container">
-        <div class="dsp5-container">
-            <div class="dsp5-left">
-                <h2>DSP5 計算機</h2>
-                <p class="description">輸入預計投入金額與淨值，自動獲取匯率並計算每月配息！</p>
-                <div class="form-group">
-                    <label for="dsp5Investment">預計投入金額 (NTD)：</label>
-                    <input type="number" id="dsp5Investment" placeholder="例如 1000000" min="0" step="100">
-                </div>
-                <div class="form-group">
-                    <label for="dsp5NetValue">假設淨值 (每單位)：</label>
-                    <input type="number" id="dsp5NetValue" placeholder="例如 8.5" min="0" step="0.01">
-                </div>
-                <button onclick="calculateDSP5()">計算</button>
-                <div class="result" id="dsp5Result"></div>
-            </div>
-            <div class="dsp5-right">
-                <h3>注意事項</h3>
-                <ul class="dsp5-notes-list">
-                    <li>1. <a href="https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=TLZ64-DSP5" target="_blank">點擊此處查看最新淨值</a></li>
-                    <li>2. 匯率由系統自動更新<span id="dsp5ExchangeRateInfo"></span></li>
-                    <li>3. 手續費已自動扣除</li>
-                    <li>4. 本試算僅供參考</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+<script>
+(function(){
+  const btn = document.getElementById('ksBack');
+  function scheduleWiggle() {
+    const delay = 4000 + Math.random() * 8000; // 4~12秒不定時
+    setTimeout(function() {
+      btn.classList.add('wiggle');
+      btn.addEventListener('animationend', function onEnd() {
+        btn.classList.remove('wiggle');
+        btn.removeEventListener('animationend', onEnd);
+        scheduleWiggle();
+      });
+    }, delay);
+  }
+  scheduleWiggle();
+})();
+</script>
 
-    <section id="techFund" class="container hidden">
-        <h2>美國科技基金<br>長期買進預估</h2>
-        <div class="form-group">
-            <label for="techInvestment">每月投入金額（新台幣）：</label>
-            <input type="number" id="techInvestment" placeholder="請輸入金額" min="0">
-        </div>
-        <div class="form-group">
-            <label for="techYears">持續買進年期（年）：</label>
-            <input type="number" id="techYears" placeholder="請輸入年數" min="1" max="30">
-        </div>
-        <button onclick="calculateTechFund()">計算</button>
-        <div class="result" id="techResult"></div>
-    </section>
 
-    <section id="leverage" class="container hidden">
-        <h2>房貸槓桿投資計算機</h2>
-        <div class="form-group">
-            <label for="originalLoan">原始貸款（萬元）：</label>
-            <input type="number" id="originalLoan" placeholder="例如 800" min="0">
-        </div>
-        <div class="form-group">
-            <label for="originalMonthlyPayment">原始月付金（萬元）：</label>
-            <input type="number" id="originalMonthlyPayment" placeholder="例如 3" min="0" step="0.01">
-        </div>
-        <div class="form-group">
-            <label for="refinanceAmount">轉增貸金額（萬元）：</label>
-            <input type="number" id="refinanceAmount" placeholder="例如 1000" min="0">
-        </div>
-        <div class="form-group">
-            <label for="refinanceRate">轉貸利率（%）：</label>
-            <input type="number" id="refinanceRate" placeholder="例如 2.5" min="0" step="0.01">
-        </div>
-        <button onclick="calculateLeverage()">計算</button>
-        <div class="result" id="leverageResult"></div>
-    </section>
-
-    <div class="watermark">made by Kevinyicheng</div>
-    <div class="menu" id="menu">
-        <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">+</div>
-        <div class="menu-options" id="menuOptions">
-            <button id="dsp5Btn" onclick="switchSection('dsp5')">DSP5 計算機</button>
-            <button id="techBtn" onclick="switchSection('techFund')">美國科技基金</button>
-            <button id="leverBtn" onclick="switchSection('leverage')">房貸槓桿投資</button>
-        </div>
-    </div>
-    <div class="loading-emoji" id="loadingEmoji">💰</div>
-
-    <script>
-        const DISCOUNT_RATES = [
-            { min: 0, max: 2000000, rate: 0.95 },
-            { min: 2000000, max: 5000000, rate: 0.96 },
-            { min: 5000000, max: 10000000, rate: 0.97 },
-            { min: 10000000, max: Infinity, rate: 0.98 }
-        ];
-
-        function validateInput(...values) {
-            return values.every(val => !isNaN(val) && val >= 0);
-        }
-
-        function getDiscountRate(amount) {
-            return DISCOUNT_RATES.find(({ min, max }) => amount >= min && amount < max).rate;
-        }
-
-        async function fetchExchangeRate() {
-            try {
-                const response = await fetch('https://open.er-api.com/v6/latest/USD');
-                const data = await response.json();
-                if (data.result === 'success') {
-                    const rate = data.rates.TWD;
-                    const dateTime = new Date(data.time_last_update_utc).toLocaleString('zh-TW', { dateStyle: 'short', timeStyle: 'short' });
-                    return { rate, dateTime };
-                }
-                throw new Error('無法獲取匯率數據');
-            } catch (error) {
-                console.error('匯率 API 錯誤:', error);
-                alert('無法獲取匯率數據，請稍後再試！');
-                return null;
-            }
-        }
-
-        async function calculateDSP5() {
-            const investment = parseFloat(document.getElementById('dsp5Investment').value);
-            const netValue = parseFloat(document.getElementById('dsp5NetValue').value);
-            const resultDiv = document.getElementById('dsp5Result');
-            const exchangeRateInfo = document.getElementById('dsp5ExchangeRateInfo');
-            const loadingEmoji = document.getElementById('loadingEmoji');
-
-            if (!validateInput(investment, netValue) || netValue === 0) {
-                alert('請輸入有效且非負的數字，且淨值不能為 0！');
-                return;
-            }
-
-            loadingEmoji.classList.add('shaking');
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            loadingEmoji.classList.remove('shaking');
-
-            const exchangeData = await fetchExchangeRate();
-            if (!exchangeData) return;
-
-            const { rate: exchangeRate, dateTime: exchangeDateTime } = exchangeData;
-            const adjustedInvestment = investment * getDiscountRate(investment);
-            const units = adjustedInvestment / netValue / exchangeRate;
-            const monthlyPayout = units * 0.055;
-
-            exchangeRateInfo.innerHTML = ` (${exchangeDateTime}：${exchangeRate.toFixed(2)})`;
-            resultDiv.innerHTML = `
-                <div class="result-card">
-                    月配息金額：<br><hr><span>NT$${Math.round(monthlyPayout * exchangeRate).toLocaleString('zh-TW')}</span>
-                </div>
-                <div class="result">可得單位數：${units.toFixed(2)}</div>
-                <div class="result">每單位配息：0.055</div>
-                <div class="result">當前匯率 (USD/TWD)：${exchangeRate.toFixed(2)}</div>
-                <div class="result-note">基於當前匯率與每單位配息 0.055 計算，實際結果可能因市場波動而異</div>
-            `;
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        async function calculateTechFund() {
-            const monthlyInvestment = parseFloat(document.getElementById('techInvestment').value);
-            const baseYears = parseInt(document.getElementById('techYears').value);
-            const resultDiv = document.getElementById('techResult');
-            const loadingEmoji = document.getElementById('loadingEmoji');
-
-            if (!validateInput(monthlyInvestment, baseYears) || baseYears < 1 || baseYears > 30) {
-                alert('請輸入有效的金額和年期（1-30 年）！');
-                return;
-            }
-
-            loadingEmoji.classList.add('shaking');
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            loadingEmoji.classList.remove('shaking');
-
-            const annualReturnRate = 0.08;
-            const periods = [baseYears, baseYears + 5, baseYears + 10, baseYears + 15].filter(y => y <= 30);
-
-            resultDiv.innerHTML = '';
-            periods.forEach(years => {
-                const months = years * 12;
-                const totalCost = monthlyInvestment * months;
-                const futureValue = monthlyInvestment * ((Math.pow(1 + annualReturnRate / 12, months) - 1) / (annualReturnRate / 12));
-                const formattedCost = totalCost.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 });
-                const formattedValue = futureValue.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 });
-
-                resultDiv.innerHTML += `
-                    <div class="result-card">
-                        <span class="result-card-title">持續買進 ${years} 年</span><br><hr>
-                        總投入成本 <span>${formattedCost}</span><br>
-                        預估資產終值 <span>${formattedValue}</span>
-                    </div>
-                `;
-            });
-
-            resultDiv.innerHTML += `
-                <div class="result-note">
-                    備註：基於美國科技股長期平均年化報酬保守8%計算<br>實際報酬可能因市場波動而異
-                </div>
-            `;
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        async function calculateLeverage() {
-            const originalLoan = parseFloat(document.getElementById('originalLoan').value) * 10000 || 0;
-            const originalMonthlyPayment = parseFloat(document.getElementById('originalMonthlyPayment').value) * 10000 || 0;
-            const refinanceAmount = parseFloat(document.getElementById('refinanceAmount').value) * 10000 || 0;
-            const refinanceRate = parseFloat(document.getElementById('refinanceRate').value) / 100 || 0;
-            const resultDiv = document.getElementById('leverageResult');
-            const loadingEmoji = document.getElementById('loadingEmoji');
-
-            if (!validateInput(originalLoan, originalMonthlyPayment, refinanceAmount, refinanceRate)) {
-                alert('請輸入有效的數字，且不得為負值！');
-                return;
-            }
-
-            loadingEmoji.classList.add('shaking');
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            loadingEmoji.classList.remove('shaking');
-
-            const cashAvailable = refinanceAmount - originalLoan;
-            const gracePeriodPayment = (refinanceAmount * refinanceRate) / 12;
-            const cashFlow = (((refinanceAmount - originalLoan) * 0.95 / 8.5) * 0.055) - gracePeriodPayment;
-
-            resultDiv.innerHTML = `
-                <table>
-                    <tr><th>項目</th><th>金額</th></tr>
-                    <tr><td>可拿現金</td><td>NT$${cashAvailable.toLocaleString('zh-TW', { maximumFractionDigits: 0 })}</td></tr>
-                    <tr><td>寬限期月付金</td><td>NT$${gracePeriodPayment.toLocaleString('zh-TW', { maximumFractionDigits: 0 })}</td></tr>
-                    <tr><td>可創造現金流</td><td>NT$${cashFlow.toLocaleString('zh-TW', { maximumFractionDigits: 0 })}</td></tr>
-                </table>
-                <div class="result-note">
-                    備註：基於轉貸利率 ${refinanceRate * 100}% 和特定投資假設計算<br>實際結果可能因市場波動而異
-                </div>
-            `;
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function toggleMenu() {
-            const menu = document.getElementById('menu');
-            const menuBtn = document.getElementById('menuBtn');
-            menu.classList.toggle('open');
-            menuBtn.classList.toggle('open');
-        }
-
-        function switchSection(sectionId) {
-            document.getElementById('dsp5').classList.add('hidden');
-            document.getElementById('techFund').classList.add('hidden');
-            document.getElementById('leverage').classList.add('hidden');
-            document.getElementById(sectionId).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            toggleMenu();
-        }
-
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                if (!document.getElementById('dsp5').classList.contains('hidden')) {
-                    calculateDSP5();
-                } else if (!document.getElementById('techFund').classList.contains('hidden')) {
-                    calculateTechFund();
-                } else {
-                    calculateLeverage();
-                }
-            }
-        });
-
-        // 預設顯示 DSP5 計算機
-        switchSection('dsp5');
-    </script>
 </body>
 </html>
